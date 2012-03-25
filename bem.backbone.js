@@ -12,6 +12,8 @@
 
         elementModDataAttribute: 'bemMods',
 
+        elementBaseClassDataAttribute: 'bemBaseClass',
+
         getMods: function(jqueryMethodArgs){
             var mods = {};
 
@@ -48,7 +50,7 @@
         },
 
         setElementMod: function($element, modName, modValue){
-            var elementMods = utilities.getElementMods($element);
+            var elementMods = utilities.getElementMods($element, '');
             elementMods[modName] = modValue;
             $element.data(utilities.elementModDataAttribute, elementMods);
         }
@@ -59,12 +61,6 @@
      * jQuery methods for setting and removing modifiers
      */
     $.fn.setMod = function(){
-        var baseClass = this.baseClass;
-        if (!baseClass) {
-            utilities.errorMessage('.setMod() error');
-            return this;
-        }
-
         if (arguments.length == 0 || arguments.length > 2) {
             utilities.errorMessage('.setMod() takes one or two attributes');
             return this;
@@ -72,8 +68,15 @@
 
         var mods = utilities.getMods(arguments);
 
-        return this.each(function(index, element){
-            var $element = $(element);
+        return this.each(function(){
+            var $element = $(this);
+            var baseClass = $element.data(utilities.elementBaseClassDataAttribute);
+
+            if (!baseClass) {
+                utilities.errorMessage('.setMod() error');
+                return;
+            }
+
             var elementMods = utilities.getElementMods($element, baseClass);
 
             for (var modName in mods) {
@@ -86,14 +89,15 @@
         });
     };
     $.fn.removeMod = function(modName){
-        var baseClass = this.baseClass;
-        if (!baseClass) {
-            utilities.errorMessage('.removeMod() error');
-            return this;
-        }
+        return this.each(function(){
+            var $element = $(this);
+            var baseClass = $element.data(utilities.elementBaseClassDataAttribute);
 
-        return this.each(function(index, element){
-            var $element = $(element);
+            if (!baseClass) {
+                utilities.errorMessage('.removeMod() error');
+                return;
+            }
+
             var elementMods = utilities.getElementMods($element, baseClass);
 
             if (modName in elementMods) {
@@ -109,7 +113,7 @@
         setMod: function(){
             var $block = this.$el;
 
-            $block.baseClass = this.blockName;
+            $block.data(utilities.elementBaseClassDataAttribute, this.blockName);
             $block.setMod(utilities.getMods(arguments));
 
             return $block;
@@ -118,19 +122,22 @@
         removeMod: function(modName){
             var $block = this.$el;
 
-            $block.baseClass = this.blockName;
+            $block.data(utilities.elementBaseClassDataAttribute, this.blockName);
             $block.removeMod(modName);
 
             return $block;
         },
 
         element: function(elementName){
+            var that = this;
             var $block = this.$el;
             var elementSelector = '.' + this.blockName + '__' + elementName;
             var $elements = $block.find(elementSelector);
 
             // Set blockName and elementName
-            $elements.baseClass = this.blockName + '__' + elementName;
+            $elements.each(function(){
+                $(this).data(utilities.elementBaseClassDataAttribute, that.blockName + '__' + elementName)
+            });
 
             return $elements;
         }
