@@ -35,7 +35,8 @@
      * jQuery methods for setting and removing modificators
      */
     $.fn.setMod = function(){
-        if (!this.blockName && !this.elementName) {
+        var baseClass = this.baseClass;
+        if (!baseClass) {
             utilities.errorMessage('.setMod() error');
             return this;
         }
@@ -46,7 +47,6 @@
         }
 
         var mods = {};
-        var elementClass = this.blockName + '__' + this.elementName;
 
         if (arguments.length == 1) {
             mods = arguments[0];
@@ -60,27 +60,26 @@
 
             for (var modName in mods) {
                 if (modName in elementMods) {
-                    $element.removeClass(elementClass + '_' + modName + '_' + elementMods[modName]);
+                    $element.removeClass(baseClass + '_' + modName + '_' + elementMods[modName]);
                 }
-                $element.addClass(elementClass + '_' + modName + '_' + mods[modName]);
+                $element.addClass(baseClass + '_' + modName + '_' + mods[modName]);
                 utilities.setElementMod($element, modName, mods[modName]);
             }
         });
     };
     $.fn.removeMod = function(modName){
-        if (!this.blockName && !this.elementName) {
+        var baseClass = this.baseClass;
+        if (!baseClass) {
             utilities.errorMessage('.removeMod() error');
             return this;
         }
-
-        var elementClass = this.blockName + '__' + this.elementName;
 
         return this.each(function(index, element){
             var $element = $(element);
             var elementMods = utilities.getElementMods($element);
 
             if (modName in elementMods) {
-                $element.removeClass(elementClass + '_' + modName + '_' + elementMods[modName]);
+                $element.removeClass(baseClass + '_' + modName + '_' + elementMods[modName]);
             }
         });
     };
@@ -95,8 +94,7 @@
             var $elements = $block.find(elementSelector);
 
             // Set blockName and elementName
-            $elements.blockName = this.blockName;
-            $elements.elementName = elementName;
+            $elements.baseClass = this.blockName + '__' + elementName;
 
             return $elements;
         }
