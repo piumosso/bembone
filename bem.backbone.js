@@ -5,28 +5,28 @@
 
 
     /**
-     * Utilites
+     * Utilities
      */
-    var utilites = {
+    var utilities = {
         errorMessage: (console && console.error) ? console.error : function(errorText){},
 
         elementModDataAttribute: 'bemMods',
 
         getElementMods: function($element){
-            var elementMods = $element.data(utilites.elementModDataAttribute);
+            var elementMods = $element.data(utilities.elementModDataAttribute);
 
             if (!elementMods) {
                 elementMods = {};
-                $element.data(utilites.elementModDataAttribute, elementMods);
+                $element.data(utilities.elementModDataAttribute, elementMods);
             }
 
             return elementMods;
         },
 
         setElementMod: function($element, modName, modValue){
-            var elementMods = utilites.getElementMods($element);
+            var elementMods = utilities.getElementMods($element);
             elementMods[modName] = modValue;
-            $element.data(utilites.elementModDataAttribute, elementMods);
+            $element.data(utilities.elementModDataAttribute, elementMods);
         }
     };
 
@@ -36,12 +36,12 @@
      */
     $.fn.setMod = function(){
         if (!this.blockName && !this.elementName) {
-            utilites.errorMessage('.setMod() error');
+            utilities.errorMessage('.setMod() error');
             return this;
         }
 
         if (arguments.length == 0 || arguments.length > 2) {
-            utilites.errorMessage('.setMod() takes one or two attributes');
+            utilities.errorMessage('.setMod() takes one or two attributes');
             return this;
         }
 
@@ -54,28 +54,30 @@
             mods[arguments[0]] = arguments[1];
         }
 
-        return this.each(function($element){
-            var elementMods = utilites.getElementMods($element);
+        return this.each(function(index, element){
+            var $element = $(element);
+            var elementMods = utilities.getElementMods($element);
 
             for (var modName in mods) {
                 if (modName in elementMods) {
                     $element.removeClass(elementClass + '_' + modName + '_' + elementMods[modName]);
                 }
                 $element.addClass(elementClass + '_' + modName + '_' + mods[modName]);
-                utilites.setElementMod($element, modName, mods[modName]);
+                utilities.setElementMod($element, modName, mods[modName]);
             }
         });
     };
     $.fn.removeMod = function(modName){
         if (!this.blockName && !this.elementName) {
-            utilites.errorMessage('.removeMod() error');
+            utilities.errorMessage('.removeMod() error');
             return this;
         }
 
         var elementClass = this.blockName + '__' + this.elementName;
 
-        return this.each(function($element){
-            var elementMods = utilites.getElementMods($element);
+        return this.each(function(index, element){
+            var $element = $(element);
+            var elementMods = utilities.getElementMods($element);
 
             if (modName in elementMods) {
                 $element.removeClass(elementClass + '_' + modName + '_' + elementMods[modName]);
@@ -89,11 +91,11 @@
 
         element: function(elementName){
             var $block = this.$el;
-            var elementSelector = self.blockName + '__' + elementName;
+            var elementSelector = '.' + this.blockName + '__' + elementName;
             var $elements = $block.find(elementSelector);
 
             // Set blockName and elementName
-            $elements.blockName = self.blockName;
+            $elements.blockName = this.blockName;
             $elements.elementName = elementName;
 
             return $elements;

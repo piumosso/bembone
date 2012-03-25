@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>BemBone test page</title>
+    <meta name="description" content="BemBone test page">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
+    <script src="http://documentcloud.github.com/backbone/backbone-min.js"></script>
+    <script src="bem.backbone.js"></script>
+</head>
+<body>
+
+<!-- HTML for testing -->
+<article class="news" id="sample">
+    <header class="news__header">
+        <h1 class="news__title"></h1>
+        <time class="news__date"></time>
+    </header>
+    <div class="news__teaser"></div>
+    <footer class="news__controlls">
+        <a class="news__more" href=""></a>
+        <span class="news__add-to-favorites"></span>
+        <span class="news__rate"></span>
+    </footer>
+</article>
+
+<!-- Test suite -->
+<script>
+    $(function(){
+        var NewsView = Backbone.BemView.extend({
+            blockName: 'news'
+        });
+        var view = new NewsView({
+            el: $('#sample')
+        });
+
+        console.info('Test element getting');
+        var $titleElement = view.element('title');
+        if (!$titleElement.is('h1.news__title')) {
+            console.error("view.element('title') return wrong element:", $titleElement);
+        }
+
+        console.info('Test modificators setting');
+        $titleElement.setMod({
+            size: 'big',
+            bordered: 'yes'
+        });
+        if (!$titleElement.hasClass('news__title_size_big') || !$titleElement.hasClass('news__title_bordered_yes')) {
+            console.error("view.element('title').setMod set wrong classes:", $titleElement.attr('class'));
+        }
+
+        console.info('Test modificator change');
+        $titleElement.setMod('size', 'small');
+        if (!$titleElement.hasClass('news__title_size_small') || $titleElement.hasClass('news__title_size_big')) {
+            console.error("view.element('title').setMod set wrong classes:", $titleElement.attr('class'));
+        }
+
+        console.info('Test modificator remove');
+        $titleElement.removeMod('bordered');
+        if ($titleElement.hasClass('news__title_bordered_yes')) {
+            console.error("view.element('title').removeMod do not remove modificator class:", $titleElement.attr('class'));
+        }
+    });
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
