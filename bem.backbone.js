@@ -7,22 +7,27 @@
     /**
      * Utilites
      */
-    var error = (console && console.error) ? console.error : function(errorText){};
-    var elementModlDataAttribute = 'bemMods';
-    var getElementMods = function($element){
-        var elementMods = $element.data(elementModlDataAttribute);
+    var utilites = {
+        errorMessage: (console && console.error) ? console.error : function(errorText){},
 
-        if (!elementMods) {
-            elementMods = {};
-            $element.data(elementModlDataAttribute, elementMods);
+        elementModDataAttribute: 'bemMods',
+
+        getElementMods: function($element){
+            var elementMods = $element.data(utilites.elementModDataAttribute);
+
+            if (!elementMods) {
+                elementMods = {};
+                $element.data(utilites.elementModDataAttribute, elementMods);
+            }
+
+            return elementMods;
+        },
+
+        setElementMod: function($element, modName, modValue){
+            var elementMods = utilites.getElementMods($element);
+            elementMods[modName] = modValue;
+            $element.data(utilites.elementModDataAttribute, elementMods);
         }
-
-        return elementMods;
-    };
-    var setElementMod = function($element, modName, modValue){
-        var elementMods = getElementMods($element);
-        elementMods[modName] = modValue;
-        $element.data(elementModlDataAttribute, elementMods);
     };
 
 
@@ -31,12 +36,12 @@
      */
     $.fn.setMod = function(){
         if (!this.blockName && !this.elementName) {
-            error('.setMod() error');
+            utilites.errorMessage('.setMod() error');
             return this;
         }
 
         if (arguments.length == 0 || arguments.length > 2) {
-            error('.setMod() takes one or two attributes');
+            utilites.errorMessage('.setMod() takes one or two attributes');
             return this;
         }
 
@@ -50,27 +55,27 @@
         }
 
         return this.each(function($element){
-            var elementMods = getElementMods($element);
+            var elementMods = utilites.getElementMods($element);
 
             for (var modName in mods) {
                 if (modName in elementMods) {
                     $element.removeClass(elementClass + '_' + modName + '_' + elementMods[modName]);
                 }
                 $element.addClass(elementClass + '_' + modName + '_' + mods[modName]);
-                setElementMod($element, modName, mods[modName]);
+                utilites.setElementMod($element, modName, mods[modName]);
             }
         });
     };
     $.fn.removeMod = function(modName){
         if (!this.blockName && !this.elementName) {
-            error('.removeMod() error');
+            utilites.errorMessage('.removeMod() error');
             return this;
         }
 
         var elementClass = this.blockName + '__' + this.elementName;
 
         return this.each(function($element){
-            var elementMods = getElementMods($element);
+            var elementMods = utilites.getElementMods($element);
 
             if (modName in elementMods) {
                 $element.removeClass(elementClass + '_' + modName + '_' + elementMods[modName]);
