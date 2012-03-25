@@ -1,8 +1,8 @@
+# BEM-extension for Backbone views
 
-# Example:
+## Example
 
-## Initialization
-
+```html
 <article class="news" id="sample">
     <header class="news__header">
         <h1 class="news__title"></h1>
@@ -15,33 +15,73 @@
         <span class="news__rate"></span>
     </footer>
 </article>
-
+```
+```js
 var NewsView = Backbone.BemView.extend({
     blockName: 'news'
 });
 var view = new NewsView({
     el: $('#sample')
 });
+```
+
 
 ## Usage
 
+
+### Set modificator to the block
+
+```js
 view.setMod('importance', 'high')
-article.news.news_importance_high
+```
+```html
+<article class="news news_importance_high"></article>
+```
 
+### Remove modificator from the block
+
+```js
 view.removeMod('importance')
-article.news
+```
+```html
+<article class="news"></article>
+```
 
+### Get a block element
+
+```js
 view.element('title')
-h1.news__title
+```
+```html
+<h1 class="news__title"></h1>
+```
 
+### Set modificator to the element
+
+```js
 view.element('title').setMod({
-    size: 'big',
-    bordered: 'yes'
+size: 'big',
+bordered: 'yes'
 })
-h1.news__title.news__title_size_big.news__title_bordered_yes
+```
+```html
+<h1 class="news__title news__title_size_big news__title_bordered_yes"></h1>
+```
 
+### Change an element modificator
+
+```js
 view.element('title').setMod('size', 'small')
-h1.news__title.news__title_size_small.news__title_bordered_yes
+```
+```html
+<h1 class="news__title news__title_size_small news__title_bordered_yes"></h1>
+```
 
+### Remove modificator from the element
+
+```js
 view.element('title').removeMod('bordered')
-h1.news__title.news__title_size_small
+```
+```html
+<h1 class="news__title news__title_size_small"></h1>
+```
