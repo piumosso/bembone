@@ -35,10 +35,23 @@
             el: $('#sample')
         });
 
+
+        console.info('Test modifier setting to view element');
+        view.setMod('importance', 'high');
+        if (!view.$el.is('article.news.news_importance_high')) {
+            console.error("view.setMod set wrong classes:", view.$el.attr('class'));
+        }
+
+        console.info('Test modifier remove from view element');
+        view.removeMod('importance');
+        if (view.$el.hasClass('news_importance_high')) {
+            console.error("view.removeMod do not removed modifier class:", view.$el.attr('class'));
+        }
+
         console.info('Test element getting');
         var $titleElement = view.element('title');
         if (!$titleElement.is('h1.news__title')) {
-            console.error("view.element('title') return wrong element:", $titleElement);
+            console.error("view.element return wrong element:", $titleElement);
         }
 
         console.info('Test modifiers setting');
