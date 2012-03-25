@@ -24,12 +24,23 @@
             return mods;
         },
 
-        getElementMods: function($element){
+
+        getElementMods: function($element, baseClass){
             var elementMods = $element.data(utilities.elementModDataAttribute);
 
             if (!elementMods) {
-                console.log($element.attr('class'));
+                var elementClasses = $element.attr('class').split(/\s+/gm);
+                var modifierRegexp = new RegExp('^' + baseClass + '_([A-Za-z0-9\-]+)_([A-Za-z0-9\-]+)$');
+
                 elementMods = {};
+                for (var i = 0; i < elementClasses.length; i++) {
+                    var matches = modifierRegexp.exec(elementClasses[i]);
+
+                    if (matches){
+                        elementMods[matches[1]] = matches[2];
+                    }
+                }
+
                 $element.data(utilities.elementModDataAttribute, elementMods);
             }
 
@@ -63,7 +74,7 @@
 
         return this.each(function(index, element){
             var $element = $(element);
-            var elementMods = utilities.getElementMods($element);
+            var elementMods = utilities.getElementMods($element, baseClass);
 
             for (var modName in mods) {
                 if (modName in elementMods) {
@@ -83,7 +94,7 @@
 
         return this.each(function(index, element){
             var $element = $(element);
-            var elementMods = utilities.getElementMods($element);
+            var elementMods = utilities.getElementMods($element, baseClass);
 
             if (modName in elementMods) {
                 $element.removeClass(baseClass + '_' + modName + '_' + elementMods[modName]);
