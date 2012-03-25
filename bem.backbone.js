@@ -12,6 +12,18 @@
 
         elementModDataAttribute: 'bemMods',
 
+        getMods: function(args){
+            var mods = {};
+
+            if (args.length == 1) {
+                mods = args[0];
+            } else {
+                mods[args[0]] = args[1];
+            }
+
+            return mods;
+        },
+
         getElementMods: function($element){
             var elementMods = $element.data(utilities.elementModDataAttribute);
 
@@ -46,13 +58,7 @@
             return this;
         }
 
-        var mods = {};
-
-        if (arguments.length == 1) {
-            mods = arguments[0];
-        } else {
-            mods[arguments[0]] = arguments[1];
-        }
+        var mods = utilities.getMods(arguments);
 
         return this.each(function(index, element){
             var $element = $(element);
@@ -87,6 +93,24 @@
 
     Backbone.BemView = Backbone.View.extend({
         blockName: '',
+
+        setMod: function(){
+            var $block = this.$el;
+
+            $block.baseClass = this.blockName;
+            $block.setMod(utilities.getMods(arguments));
+
+            return $block;
+        },
+
+        removeMod: function(modName){
+            var $block = this.$el;
+
+            $block.baseClass = this.blockName;
+            $block.removeMod(modName);
+
+            return $block;
+        },
 
         element: function(elementName){
             var $block = this.$el;
