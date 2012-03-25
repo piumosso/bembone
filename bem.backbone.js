@@ -12,13 +12,13 @@
 
         elementModDataAttribute: 'bemMods',
 
-        getMods: function(args){
+        getMods: function(jqueryMethodArgs){
             var mods = {};
 
-            if (args.length == 1) {
-                mods = args[0];
+            if (jqueryMethodArgs.length == 1) {
+                mods = jqueryMethodArgs[0];
             } else {
-                mods[args[0]] = args[1];
+                mods[jqueryMethodArgs[0]] = jqueryMethodArgs[1];
             }
 
             return mods;
@@ -28,6 +28,7 @@
             var elementMods = $element.data(utilities.elementModDataAttribute);
 
             if (!elementMods) {
+                console.log($element.attr('class'));
                 elementMods = {};
                 $element.data(utilities.elementModDataAttribute, elementMods);
             }

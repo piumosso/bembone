@@ -17,7 +17,9 @@
         <h1 class="news__title"></h1>
         <time class="news__date"></time>
     </header>
-    <div class="news__teaser"></div>
+    <div class="news__teaser news__teaser_mod1_val1
+                news__teaser_mod-2_val-2
+                news__teaser_mod3_wrong_val"></div>
     <footer class="news__controlls">
         <a class="news__more" href=""></a>
         <span class="news__add-to-favorites"></span>
@@ -73,6 +75,17 @@
         $titleElement.removeMod('bordered');
         if ($titleElement.hasClass('news__title_bordered_yes')) {
             console.error("view.element('title').removeMod do not removed modifier class:", $titleElement.attr('class'));
+        }
+
+        console.info('Test modifiers restore');
+        var $teaserElement = view.element('teaser');
+        $teaserElement.removeMod('mod-2');
+        if ($teaserElement.hasClass('news__teaser_mod-2_val-2')) {
+            console.error("view.element('teaser') has modifier mod-2, but removeMod('mod-2') do not remove it");
+        }
+        $teaserElement.removeMod('mod3');
+        if (!$teaserElement.hasClass('news__teaser_mod3_wrong_val')) {
+            console.error("view.element('teaser') has wrong modifier mod3, but removeMod('mod-2') remove it");
         }
     });
 </script>
