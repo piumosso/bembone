@@ -41,7 +41,7 @@
             console.error("view.element('title') return wrong element:", $titleElement);
         }
 
-        console.info('Test modificators setting');
+        console.info('Test modifiers setting');
         $titleElement.setMod({
             size: 'big',
             bordered: 'yes'
@@ -50,16 +50,16 @@
             console.error("view.element('title').setMod set wrong classes:", $titleElement.attr('class'));
         }
 
-        console.info('Test modificator change');
+        console.info('Test modifier change');
         $titleElement.setMod('size', 'small');
         if (!$titleElement.hasClass('news__title_size_small') || $titleElement.hasClass('news__title_size_big')) {
             console.error("view.element('title').setMod set wrong classes:", $titleElement.attr('class'));
         }
 
-        console.info('Test modificator remove');
+        console.info('Test modifier remove');
         $titleElement.removeMod('bordered');
         if ($titleElement.hasClass('news__title_bordered_yes')) {
-            console.error("view.element('title').removeMod do not removed modificator class:", $titleElement.attr('class'));
+            console.error("view.element('title').removeMod do not removed modifier class:", $titleElement.attr('class'));
         }
     });
 </script>

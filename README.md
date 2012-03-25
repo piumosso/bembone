@@ -29,7 +29,7 @@ var view = new NewsView({
 ## Usage
 
 
-### Set modificator to the block
+### Set modifier to the block
 
 ```js
 view.setMod('importance', 'high')
@@ -38,7 +38,7 @@ view.setMod('importance', 'high')
 <article class="news news_importance_high"></article>
 ```
 
-### Remove modificator from the block
+### Remove modifier from the block
 
 ```js
 view.removeMod('importance')
@@ -56,7 +56,7 @@ view.element('title')
 <h1 class="news__title"></h1>
 ```
 
-### Set modificator to the element
+### Set modifier to the element
 
 ```js
 view.element('title').setMod({
@@ -68,7 +68,7 @@ bordered: 'yes'
 <h1 class="news__title news__title_size_big news__title_bordered_yes"></h1>
 ```
 
-### Change an element modificator
+### Change an element modifier
 
 ```js
 view.element('title').setMod('size', 'small')
@@ -77,7 +77,7 @@ view.element('title').setMod('size', 'small')
 <h1 class="news__title news__title_size_small news__title_bordered_yes"></h1>
 ```
 
-### Remove modificator from the element
+### Remove modifier from the element
 
 ```js
 view.element('title').removeMod('bordered')

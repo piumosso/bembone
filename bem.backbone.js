@@ -32,7 +32,7 @@
 
 
     /**
-     * jQuery methods for setting and removing modificators
+     * jQuery methods for setting and removing modifiers
      */
     $.fn.setMod = function(){
         var baseClass = this.baseClass;
