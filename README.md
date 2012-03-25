@@ -1,9 +1,14 @@
 # BEM-extension for Backbone views
 
-## Example
+Bembone provides access to elements in terms of [BEM](http://bem.github.com/bem-method/html/all.en.html),
+the management of their modifiers and modifiers of the block.
+
+## Usage
+
+Include bem.backbone.js after backbone.js.
 
 ```html
-<article class="news" id="sample">
+<article class="news" id="example">
     <header class="news__header">
         <h1 class="news__title"></h1>
         <time class="news__date"></time>
@@ -21,12 +26,12 @@ var NewsView = Backbone.BemView.extend({
     blockName: 'news'
 });
 var view = new NewsView({
-    el: $('#sample')
+    el: $('#example')
 });
 ```
 
 
-## Usage
+## Examples
 
 
 ### Set modifier to the block
@@ -60,8 +65,8 @@ view.element('title')
 
 ```js
 view.element('title').setMod({
-size: 'big',
-bordered: 'yes'
+    size: 'big',
+    bordered: 'yes'
 })
 ```
 ```html
